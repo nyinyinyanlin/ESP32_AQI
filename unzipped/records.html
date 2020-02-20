@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/png" href="/ygnbinhaus.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/ygnbinhaus.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Records</title>
+  <link rel="stylesheet" href="/bundle.css">
+  <style>
+
+  body {
+    background-color: rgba(10, 10, 10, 0.1);
+  }
+
+  .main.container-fluid {
+    padding-bottom: 5px;
+  }
+  .setting.card {
+    margin-bottom: 5px;
+  }
+  .navbar {
+    margin-bottom: 10px;
+  }
+  .navbar-span {
+    font-size: larger !important;
+  }
+
+  .cursor {
+    cursor: pointer;
+  }
+
+  .card>.table{
+    border-right:0;
+    border-left:0;
+    margin-bottom:0;
+  }
+  .card>.table:last-child{
+    border-bottom:0;
+  }
+  .card>.table th,.card>.table td{
+    padding:0.75rem 1.25rem;
+  }
+  .card>.table td:first-child,.card>.table th:first-child{
+    border-left:0;
+  }
+  .card>.table td:last-child,.card>.table th:last-child{
+    border-right:0;
+  }
+  .card>.table tr:first-child td,.card>.table tr:first-child th{
+    border-top:0;
+  }
+  .card>.table tr:last-child td{
+    border-bottom:0;
+  }
+  .card .card-header+.table{
+    border-top:0;
+  }
+  </style>
+</head>
+<body>
+  <script src="/bundle.js"></script>
+  <div class="container-fluid h-100 main">
+    <!-- <nav class="navbar navbar-expand-md navbar-nav navbar-dark bg-dark sticky-top"> -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="#">
+        <span class="navbar-span">
+          <img src="/ygnbinhaus.png" width="40" height="40" class="d-inline-block align-top" alt=""> YGNBINHAUS</a>
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <div class="navbar-toggler-icon"></div>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/records">Records <div class="sr-only">(current)</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/settings">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header">Data Records
+                  <div class="btn-group float-right" role="group">
+                    <button type="button" class="btn btn-sm btn-success disabled" id="refresh_list">Refresh</button>
+                  </div>
+                </div>
+
+                <table class="table table-bordered table-hover table-small w-auto">
+                  <thead>
+                    <tr>
+                      <th scope="col">File</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Last Modified</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-body">
+                  </tbody>
+                </table>
+
+                <div class="card-footer">
+                  Please disable data logging feature first to download log files from storage device.
+                  <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label class="btn btn-sm btn-outline-success disabled" id="log_enable">
+                      <input type="radio" name="data_log_enable" id="data_log_enable" autocomplete="off"> Enable
+                    </label>
+                    <label class="btn btn-sm btn-outline-success disabled" id="log_disable">
+                      <input type="radio" name="data_log_disable" id="data_log_disable" autocomplete="off"> Disable
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    $(document).ready(function(){
+      var card_ejected = false;
+      var getSize = function(size){
+        let units = ["B","KB","MB","GB","TB"];
+        let i = 0;
+        while (size > 1) {
+          size = size / 1024.0;
+          i++;
+        }
+        size = size * 1024.0;
+        i--;
+        return size.toFixed(2).toString() + units[i];
+      }
+
+      var isoStringToDate = function(isoString) {
+        let date = new Date(isoString).toLocaleString();
+        return (date === "Invalid Date"?"Unavailable":date);
+      }
+
+      var getRecords = function(){
+        $.ajax({
+          url: "/get?data=logs",
+          success: function(result) {
+            populateRecords(result);
+          }
+        });
+      }
+
+      var populateRecords = function(records) {
+        $("#table-body").empty();
+        records.files.forEach(function(file){
+          let filename = (file[0].split("/"))[2];
+          let row = "<tr><td>"+filename+"</td><td>"+getSize(file[1])+"</td><td>"+isoStringToDate(file[2])+"</td><td><i class=\"fas fa-exclamation-triangle\"></i><a class=\"download\" href=\"/records?type=download&file="+filename+"\"><i class=\"fas fa-download\" aria-hidden=\"true\"></i></a> | <i class=\"cursor fas fa-trash\" aria-hidden=\"true\"  data-target=\""+filename+"\"></i></td></tr>"
+          $("#table-body").append(row);
+        });
+        $(".fa-trash").click(deleteFile);
+        /*$(".fa-exclamation-triangle").popover({
+          trigger: "hover",
+          content: "Disable data logging feature first to download log files.",
+        });*/
+        getDevice();
+      }
+
+      var deleteFile = function(){
+        var filename = $(this).data('target');
+        console.log(filename);
+        $.ajax({
+          url:"/records?type=delete&file="+filename,
+          success: function(result){
+            console.log(result);
+            getRecords();
+          }
+        });
+      }
+
+      var logEnable = function(){
+        $.ajax({
+          url: "/set?settings=sd&log=true",
+          success: function(result){
+            getDevice();
+          }
+        });
+      }
+      var logDisable = function(){
+        $.ajax({
+          url: "/set?settings=sd&log=false",
+          success: function(result){
+            getDevice();
+          }
+        });
+      }
+      var getDevice = function(){
+        $.ajax({
+          url: "/get?settings=device",
+          success: function(result) {
+            console.log(result);
+            if(result.storage.insert){
+              $("#refresh_list").removeClass("disabled");
+              if (result.log.enabled) {
+                $("#log_enable").removeClass("disabled").addClass("active");
+                $("#log_disable").removeClass("disabled").removeClass("active");
+                $("#data_log_enable").prop('checked',true);
+                $("#data_log_disable").prop('checked',false);
+                $(".fa-exclamation-triangle").show();
+                $(".download").hide();
+              } else {
+                $("#log_enable").removeClass("disabled").removeClass("active");
+                $("#log_disable").removeClass("disabled").addClass("active");
+                $("#data_log_enable").prop('checked',false);
+                $("#data_log_disable").prop('checked',true);
+                $(".fa-exclamation-triangle").hide();
+                $(".download").show();
+              }
+              if (card_ejected) {
+                getRecords();
+                card_ejected = false;
+              }
+            } else {
+              $("#refresh_list").addClass("disabled");
+              $("#log_enable").addClass("disabled").removeClass("active");
+              $("#log_disable").addClass("disabled").removeClass("active");
+              $("#data_log_enable").prop('checked',false);
+              $("#data_log_disable").prop('checked',false);
+              $("#table-body").empty();
+              card_ejected = true;
+            }
+          }
+        });
+      }
+      $("#log_enable").on("click",logEnable);
+      $("#log_disable").on("click",logDisable);
+      $("#refresh_list").on("click",getRecords);
+      getRecords();
+      setInterval(function(){
+        getDevice();
+      },5000);
+    })
+    </script>
+  </body>
+  </html>

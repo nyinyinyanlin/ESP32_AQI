@@ -1,0 +1,4 @@
+{
+  "current":%BATTERY_CURRENT%,
+  "record":[%BATTERY_RECORD%]
+}

@@ -1,0 +1,4 @@
+{
+  "current":%HUMIDITY_CURRENT%,
+  "record":[%HUMIDITY_RECORD%]
+}

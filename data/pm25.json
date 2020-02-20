@@ -1,0 +1,4 @@
+{
+  "current":%PM25_CURRENT%,
+  "record":[%PM25_RECORD%]
+}

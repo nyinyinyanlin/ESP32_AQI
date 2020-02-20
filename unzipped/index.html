@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/png" href="/ygnbinhaus.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/ygnbinhaus.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Home</title>
+  <link rel="stylesheet" href="/bundle.css">
+  <style>
+  body {
+    background-color: rgba(10, 10, 10, 0.1);
+  }
+
+  .main.container-fluid {
+    padding-bottom: 5px;
+  }
+  .setting.card {
+    margin-bottom: 5px;
+  }
+  .navbar {
+    margin-bottom: 10px;
+  }
+  .navbar-span {
+    font-size: larger !important;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+  </style>
+  <style>
+  @media (max-width: 1200px){
+    .card-columns {
+      column-count: 3;
+    }
+  }
+
+  @media (max-width: 992px){
+    .card-columns {
+      column-count: 3;
+    }
+  }
+
+  @media (max-width: 768px){
+    .card-columns {
+      column-count: 2;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .card-columns {
+      column-count: 1;
+    }
+  }
+  </style>
+</head>
+<body>
+  <script type="text/javascript" src="/bundle.js"></script>
+  <div class="container-fluid h-100 main">
+    <!-- <nav class="navbar navbar-expand-md navbar-nav navbar-dark bg-dark sticky-top"> -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="#">
+        <span class="navbar-span">
+          <img src="/ygnbinhaus.png" width="40" height="40" class="d-inline-block align-top" alt=""> YGNBINHAUS</a>
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <div class="navbar-toggler-icon"></div>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <div class="sr-only">(current)</div></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/records">Records</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/settings">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="card-columns">
+        <div class="row">
+          <div class="col">
+            <div class="card setting">
+              <div class="card-header d-flex">
+                <h5 class="font-weight-bold align-self-start mr-auto">Fine Particulate Matter (PM2.5)</h5>
+                <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#pm25-text" aria-expanded="false" aria-controls="pm25-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item guage-parent">
+                  <div class="row">
+                    <div class="col-sm-12 col-8 col-text">
+                      <p class="card-text collapse" id="pm25-text">Fine particulate matter (PM2.5) is an air pollutant that is a concern for people's health when levels in air are high. PM2.5 are tiny particles in the air that reduce visibility and cause the air to appear hazy when levels are elevated. Outdoor PM2.5 levels are most likely to be elevated on days with little or no wind or air mixing.</p>
+                    </div>
+                    <div class="col-sm-12 col-4 col-guage">
+                      <div id="pm25_guage"></div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item chart-parent">
+                  <div id="pm25_chart" style="width: 100%;"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card setting">
+              <div class="card-header d-flex">
+                <h5 class="font-weight-bold align-self-start mr-auto">Coarse Dust Particles (PM10)</h5>
+                <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#pm10-text" aria-expanded="false" aria-controls="pm10-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item guage-parent">
+                  <div class="row">
+                    <div class="col-sm-12 col-6 col-guage">
+                      <p class="card-text collapse" id="pm10-text">Such particles are 2.5 to 10 micrometers in diameter. Sources include crushing or grinding operations and dust stirred up by vehicles on roads.</p>
+                    </div>
+                    <div class="col-sm-12 col-6 col-guage">
+                      <div id="pm10_guage"></div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div id="pm10_chart" style="width: 100%;"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card setting">
+              <div class="card-header d-flex">
+                <h5 class="font-weight-bold align-self-start mr-auto">Ambient Temperature</h5>
+                <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#temperature-text" aria-expanded="false" aria-controls="temperature-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-sm-12 col-6 col-guage">
+                      <p class="card-text collapse" id="temperature-text">Sunlight and high temperature trigger chemical reactions between primary air pollutants such as nitrogen oxides (emitted by engines) and oxygen, causing a chemical reaction that forms ozone. The hotter the day and the more intense the sun, the more ozone is formed.
+                        Ozone is a very active oxydant, which exacerbates lung diseases such as asthma and can cause breathing difficulties even in healthy individuals.
+
+                        Heat and sun also transform primary particles into secondary, smaller particles that can be more toxic.</p>
+                      </div>
+                      <div class="col-sm-12 col-6 col-guage">
+                        <div id="temperature_guage"></div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div id="temperature_chart" style="width: 100%;"></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header d-flex">
+                  <h5 class="font-weight-bold align-self-start mr-auto">Relative Humidity (RH)</h5>
+                  <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#humidity-text" aria-expanded="false" aria-controls="temperature-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-12 col-6 col-guage">
+                        <p class="card-text collapse" id="humidity-text">Relative humidity refers to the percentage of water vapor in the air at a given temperature, compared with water vapor that the air is capable of holding at that temperature. When the air at a certain temperature has all the water vapor it can hold at that temperature, the relative humidity is said to be 100%. When the relative humidity of a place is too high or too low, it can cause health problems, discomfort and generally less hygienic atmosphere.</p>
+                      </div>
+                      <div class="col-sm-12 col-6 col-guage">
+                        <div id="humidity_guage"></div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div id="humidity_chart" style="width: 100%;"></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header d-flex">
+                  <h5 class="font-weight-bold align-self-start mr-auto">Atmospheric Pressure</h5>
+                  <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#pressure-text" aria-expanded="false" aria-controls="pressure-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-12 col-6 col-guage">
+                        <p class="card-text collapse" id="pressure-text"> High atmospheric pressure can be of particular concern for air quality because the weather conditions it brings usually inhibit motion in the atmosphere, both vertically and horizontally. These weather elements can allow air pollution to build to unhealthy levels.</p>
+                      </div>
+                      <div class="col-sm-12 col-6 col-guage">
+                        <div id="pressure_guage"></div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div id="pressure_chart" style="width: 100%;"></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header d-flex">
+                  <h5 class="font-weight-bold align-self-start mr-auto">Atmospheric Carbon Dioxide (CO2)</h5>
+                  <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#co2-text" aria-expanded="false" aria-controls="co2-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-12 col-6 col-guage">
+                        <p class="card-text collapse" id="co2-text">Moderate to high levels of carbon dioxide can cause headaches and fatigue, and higher concentrations can produce nausea, dizziness, and vomiting. Loss of consciousness can occur at extremely high concentrations.</p>
+                      </div>
+                      <div class="col-sm-12 col-6 col-guage">
+                        <div id="co2_guage"></div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div id="co2_chart" style="width: 100%;"></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header d-flex">
+                  <h5 class="font-weight-bold align-self-start mr-auto">Volatile Organic Compounds (VOC)</h5>
+                  <a class="btn btn-sm btn-outline-info dropdown-toggle align-self-right align-self-start ml-auto" data-toggle="collapse" data-target="#voc-text" aria-expanded="false" aria-controls="voc-text"><i class="fas fa-question" aria-hidden="true"></i></a>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-12 col-6 col-guage">
+                        <p class="card-text collapse" id="voc-text">VOCs are carbon-containing organic chemicals present in indoor air. They come from a large number of indoor sources including building materials, furnishings, consumer products, tobacco smoking, people and their activities, and indoor chemical reactions. Pollutants from attached buildings such as garages may also enter indoor living spaces.</p>
+                      </div>
+                      <div class="col-sm-12 col-6 col-guage">
+                        <div id="voc_guage"></div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div id="voc_chart" style="width: 100%;"></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+        $(document).ready(function(){
+          var charts = {
+            pm10: null,
+            pm25: null,
+            temperature: null,
+            humidity: null,
+            pressure: null,
+            voc: null,
+            co2: null
+          }
+          var guages = {
+            pm10: null,
+            pm25: null,
+            temperature: null,
+            humidity: null,
+            pressure: null,
+            voc: null,
+            co2: null
+          }
+          var guageResize = function(){
+            if ($('.guage-parent').width() < 400) {
+              $('.col-guage').removeClass('col-4').addClass('col-12');
+              $('.col-text').removeClass('col-8').addClass('col-12');
+              $('.card-text').collapse('hide');
+            } else {
+              $('.col-guage').removeClass('col-12').addClass('col-4');
+              $('.col-text').removeClass('col-12').addClass('col-8');
+              $('.card-text').collapse('show');
+            }
+          };
+          guageResize();
+          $(window).on('resize',function(){
+            guageResize();
+          });
+
+          var getSTA = function(){
+            $.ajax({
+              url: "/get?settings=sta",
+              success: function(result) {
+                $("#sta_ssid").val(result.ssid);
+                $("#sta_password").val(result.password);
+              }
+            });
+          }
+          var setSTA = function(){
+            $.ajax({
+              url: "/set?settings=sta&ssid=" + $("#sta_ssid").val() + "&password=" + $("#sta_password").val(),
+              success: function(result) {
+                console.log(result);
+              }
+            });
+          }
+          var getAP = function(){
+            $.ajax({
+              url: "/get?settings=ap",
+              success: function(result) {
+                $("#ap_ssid").val(result.ssid);
+                $("#ap_password").val(result.password);
+              }
+            });
+          }
+          var setAP = function(){
+            $.ajax({
+              url: "/set?settings=ap&ssid=" + $("#ap_ssid").val() + "&password=" + $("#ap_password").val(),
+              success: function(result) {
+                console.log(result);
+              }
+            });
+          }
+          var getAPI = function(){
+            $.ajax({
+              url: "/get?settings=api",
+              success: function(result) {
+                $("#api_url").val(result.url);
+                $("#api_key").val(result.key);
+              }
+            });
+          }
+          var setAPI = function(){
+            $.ajax({
+              url: "/set?settings=api&url=" + $("#api_url").val() + "&key=" + $("#api_key").val(),
+              success: function(result) {
+                console.log(result);
+              }
+            });
+          }
+
+          var scales = {
+            pm10: { breaks:[0,55,155,255,355,425,505],colors:[ "#cccc00","#ffcc00","#ff6a13","#ff3300","#cc66cc","#cc0033"]},
+            pm25: { breaks:[0,12.1,35.5,55.5,150.5,250.5,500.5],colors:["#cccc00","#ffcc00","#ff6a13","#ff3300","#cc66cc","#cc0033"]},
+            co2: { breaks:[0,601,1001,1501,1801],colors:["#039600","#91d24c","#feff00","#fc9246","#bb0101"]},
+            voc: { breaks:[0,51,101,151,201,301],colors:["#039600","#91d24c","#feff00","#fc9246","#bb0101"]},
+            temperature: { breaks:[0,8,16,24,32,36,40],colors:[ "#cccc00","#ffcc00","#ff6a13","#ff3300","#cc66cc","#cc0033"]},
+            pressure: { breaks:[0,1100],colors:[ "#039600","#cc0033"]},
+            humidity: { breaks:[0,61,71,81,91],colors:[  "#039600","#91d24c","#feff00","#fc9246","#bb0101"]}
+          }
+
+          var getColorStops = function(type,range) {
+            let colorStop = [];
+            scales[type].colors.forEach(function(color,index){
+              colorStop.push({
+                offset:map(scales[type].breaks[index],range[0],range[1],0,100),
+                color:color,
+                opacity:1
+              })
+            });
+            return colorStop;
+          }
+
+          var getParams = function(type){
+            let params = {
+              dataType: "",
+              label: "",
+              unit: "",
+              colorStop: []
+            }
+            switch (type) {
+              case "pm10":
+              params.dataType = "pm10"; params.label = "PM10";params. range = [0,1000]; params.unit = "ug/m3";break;
+              case "pm25":
+              params.dataType = "pm25"; params.label = "PM25"; params.range = [0,1000]; params.unit = "ug/m3"; break;
+              case "temperature":
+              params.dataType = "temperature"; params.label = "Temperature"; params.range = [0,60]; params.unit = "*C"; break;
+              case "pressure":
+              params.dataType = "pressure"; params.label = "Pressure"; params.range = [300,1100]; params.unit = "hPa"; break;
+              case "humidity":
+              params.dataType = "humidity"; params.label = "Relative Humidity"; params.range = [0,100]; params.unit = "%"; break;
+              case "voc":
+              params.dataType = "voc"; params.label = "VOC"; params.range = [0,500]; params.unit = ""; break;
+              case "co2":
+              params.dataType = "co2"; params.label = "CO2"; params.range = [0,5000]; params.unit = "PPM"; break;
+              default: params.dataType = "pm10"; params.label = "PM10"; params.range = [0,1000]; params.unit = "ug/m3"; break;
+            }
+            params.colorStop = getColorStops(params.dataType,params.range);
+            return params;
+          }
+
+          var getRecordData = function(sensorList){
+            let sensors = sensorList;
+            sensors.forEach(function(sensor){
+              let params = getParams(sensor);
+              $.ajax({
+                url:"/get?data="+params.dataType,
+                success: function(result) {
+                  if (charts[params.dataType]!=null) {
+                    let timestamp = new Date();
+                    updateChart(
+                      charts[params.dataType],[{data:
+                        result.record.filter(function(entry,index){
+                          return index % 1 == 0;
+                        }).map(function(entry,index){
+                          return [new Date(timestamp - ((result.record.length - index)*300*1000)),entry]
+                        })}]
+                      );
+                    } else {
+                      charts[params.dataType] = drawChart("#"+params.dataType+"_chart",makeChartOption({
+                        label: params.label,
+                        y: result.record,
+                        timestamp: new Date(),
+                        range: params.range
+                      }));
+                    }
+                  }
+                });
+              });
+            }
+
+            var getCurrentData = function(sensorList){
+              $.ajax({
+                url:"/get?data=current",
+                success: function(result) {
+                  let sensors = sensorList;
+                  sensors.forEach(function(sensor){
+                    let params = getParams(sensor);
+                    if (guages[params.dataType]!=null) {
+                      updateChart(guages[params.dataType], [map(constrain(result[params.dataType],params.range[0],params.range[1]),params.range[0],params.range[1],0,100)]);
+                    } else {
+                      guages[params.dataType] = drawChart("#"+params.dataType+"_guage",makeGuageOption({
+                        label: params.label,
+                        current: result[params.dataType],
+                        range:params.range,
+                        unit:params.unit,
+                        colorStops: params.colorStop
+                      }));
+                    }
+                  });
+                }
+              });
+            }
+
+            var reboot = function(){
+              $.ajax({
+                url: "/set?control=reboot",
+                success: function(result){
+                  console.log(result);
+                }
+              });
+            }
+
+            function drawChart(selector, option) {
+              let chart = new ApexCharts(document.querySelector(selector), option);
+              chart.render();
+              return chart;
+            }
+
+            function map(input,in_min, in_max, out_min, out_max) {
+              return (input - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            }
+
+            function constrain(number,min, max) {
+              return Math.min(Math.max(number, min), max);
+            };
+
+            function updateChart(chart,data) {
+              chart.updateSeries(data,true);
+            }
+
+            function makeGuageOption(data){
+              return {
+                chart: {
+                  height: 200,
+                  type: "radialBar",
+                },
+                series: [map(constrain(data.current,data.range[0],data.range[1]),data.range[0],data.range[1],0,100)],
+                colors: ["#20E647"],
+                plotOptions: {
+                  radialBar: {
+                    hollow: {
+                      margin: 0,
+                      size: "70%",
+                      background: "#293450"
+                    },
+                    track: {
+                      dropShadow: {
+                        enabled: true,
+                        top: 2,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.15
+                      }
+                    },
+                    dataLabels: {
+                      name: {
+                        offsetY: -10,
+                        color: "#fff",
+                        fontSize: "13px",
+                        show:false
+                      },
+                      value: {
+                        color: "#fff",
+                        fontSize: "20px",
+                        show: true,
+                        formatter: function (val) {
+                          return map(val,0,100,data.range[0],data.range[1]) + data.unit;
+                        }
+                      }
+                    }
+                  }
+                },
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    shade: "dark",
+                    type: 'horizontal',
+                    shadeIntensity: 0.5,
+                    gradientToColors: ['#ABE5A1'],
+                    inverseColors: true,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                  }
+                },
+                stroke: {
+                  lineCap: "round"
+                },
+              }
+            }
+
+            function makeChartOption(data){
+              return {
+                chart: {
+                  height: 'auto',
+                  sparkline: {
+                    enabled: false //enable this to remove lines and labels of graph
+                  },
+                  type: 'area'
+                },
+                stroke: {
+                  curve: 'smooth'
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                series: [{
+                  name: data.label,
+                  data: data.y.filter(function(entry,index){
+                    return index % 1 == 0;
+                  }).map(function(entry,index){
+                    return [new Date(data.timestamp - ((data.y.length - index)*300*1000)),entry]
+                  })
+                }],
+                xaxis: {
+                  type: "datetime"
+                },
+                tooltip: {
+                  x: {
+                    format: 'dd/MM/yy HH:mm'
+                  }
+                }
+              }
+            }
+
+            let sensorList = ["co2","pm10","pm25","humidity","pressure","temperature","voc"];
+
+            getCurrentData(sensorList);
+            getRecordData(sensorList);
+
+            setInterval(function(){
+              getCurrentData(sensorList);
+            }, 2500);
+            setInterval(function(){
+              getRecordData(sensorList);
+            }, 10000);
+
+          })
+          </script>
+        </body>
+        </html>

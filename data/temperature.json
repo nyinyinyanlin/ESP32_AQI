@@ -1,0 +1,4 @@
+{
+  "current":%TEMPERATURE_CURRENT%,
+  "record":[%TEMPERATURE_RECORD%]
+}

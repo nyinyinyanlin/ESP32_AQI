@@ -1,0 +1,10 @@
+{
+  "pm10":%PM10_CURRENT%,
+  "pm25":%PM25_CURRENT%,
+  "co2":%CO2_CURRENT%,
+  "voc":%VOC_CURRENT%,
+  "humidity":%HUMIDITY_CURRENT%,
+  "pressure":%PRESSURE_CURRENT%,
+  "temperature":%TEMPERATURE_CURRENT%,
+  "battery":%BATTERY_CURRENT%
+}

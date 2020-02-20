@@ -1,0 +1,43 @@
+{
+  "id":"%DEVICE_ID%",
+  "firmware":"%FIRMWARE_VERSION%",
+  "time":"%SNTP_TIME%",
+  "connectivity": {
+    "type":"%CONNECTIVITY_TYPE%",
+    "mode":"%WIFI_MODE%",
+    "ip":"%IP_ADDRESS%",
+    "mac":"%MAC_ADDRESS%",
+    "mdns":"%MDNS_ADDRESS%"
+  },
+  "sensors":{
+    "pm25":%PM25_STATUS%,
+    "pm10":%PM10_STATUS%,
+    "temperature":%TEMPERATURE_STATUS%,
+    "humidity":%HUMIDITY_STATUS%,
+    "pressure":%PRESSURE_STATUS%,
+    "voc":%VOC_STATUS%,
+    "co2":%CO2_STATUS%
+  },
+  "power":{
+    "status":"%BATTERY_STATUS%",
+    "percentage":%BATTERY_PERCENTAGE%,
+    "voltage":%BATTERY_VOLTAGE%
+  },
+  "memory":{
+    "total":%TOTAL_HEAP%,
+    "available":%AVAILABLE_HEAP%
+  },
+  "storage": {
+    "card":%CARD_SIZE%,
+    "total":%TOTAL_SD%,
+    "available":%AVAILABLE_SD%,
+    "insert":%SD_INSERTED%
+  },
+  "log": {
+    "enabled": %SD_LOG%,
+    "size":%LOG_SIZE_SD%,
+    "split":%LOG_SPLIT_SIZE%,
+    "file_prefix":"%FILE_PREFIX%",
+    "interval":%LOG_INTERVAL%
+  }
+}

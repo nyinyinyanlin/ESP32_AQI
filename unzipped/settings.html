@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/png" href="/ygnbinhaus.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/ygnbinhaus.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Settings</title>
+  <link rel="stylesheet" href="/bundle.css">
+  <style>
+
+  body {
+    background-color: rgba(10, 10, 10, 0.1);
+  }
+
+  .main.container-fluid {
+    padding-bottom: 5px;
+  }
+  .setting.card {
+    margin-bottom: 5px;
+  }
+  .navbar {
+    margin-bottom: 10px;
+  }
+  .navbar-span {
+    font-size: larger !important;
+  }
+  </style>
+</head>
+<body>
+  <script src="/bundle.js"></script>
+  <div class="container-fluid h-100 main">
+    <!-- <nav class="navbar navbar-expand-md navbar-nav navbar-dark bg-dark sticky-top"> -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="#">
+        <span class="navbar-span">
+          <img src="/ygnbinhaus.png" width="40" height="40" class="d-inline-block align-top" alt=""> YGNBINHAUS</a>
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <div class="navbar-toggler-icon"></div>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/records">Records</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/settings">Settings <div class="sr-only">(current)</div></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header">
+                  Wifi Settings
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <h5 class="card-title">Station Mode</h5>
+                    <form>
+                      <div class="form-group">
+                        <label for="sta_ssid">Wifi Network (SSID)</label>
+                        <input type="text" class="form-control" id="sta_ssid" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="sta_password">Password</label>
+                        <input type="password" class="form-control" id="sta_password">
+                      </div>
+                    </form>
+                    <div class="btn-group float-right" role="group">
+                      <button type="button" class="btn btn-sm btn-outline-success" id="sta_reset">Reset</button>
+                      <button type="button" class="btn btn-sm btn-outline-success" id="sta_save">Save</button>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <h5 class="card-title">Access Point Mode</h5>
+                    <form>
+                      <div class="form-group">
+                        <label for="ap_ssid">Wifi Network (SSID)</label>
+                        <input type="text" class="form-control" id="ap_ssid" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="ap_password">Password</label>
+                        <input type="password" class="form-control" id="ap_password">
+                      </div>
+                    </form>
+                    <div class="btn-group float-right" role="group">
+                      <button type="button" class="btn btn-sm btn-outline-success" id="ap_reset">Reset</button>
+                      <button type="button" class="btn btn-sm btn-outline-success" id="ap_save">Save</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header">
+                  API Settings
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">IoT Platform</h5>
+                  <form>
+                    <div class="form-group">
+                      <label for="api_url">API URL</label>
+                      <input type="text" class="form-control" id="api_url" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                      <label for="api_key">API Key</label>
+                      <input type="text" class="form-control" id="api_key">
+                    </div>
+                  </form>
+                  <div class="btn-group float-right" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-success" id="api_reset">Reset</button>
+                    <button type="button" class="btn btn-sm btn-outline-success" id="api_save">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card setting">
+                <div class="card-header">
+                  Device Settings
+                  <div class="btn-group float-right" role="group">
+                    <button type="button" class="btn btn-sm btn-success" id="device_refresh">Refresh</button>
+                  </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <h5 class="card-title">System Status</h5>
+                    <p class="card-text"><span class="text-muted">Device Id: </span><span class="badge badge-warning" id="device_id">-</span></p>
+                    <p class="card-text"><span class="text-muted">Firmware: </span><span class="badge badge-info" id="firmware_version">-</span></p>
+                    <p class="card-text"><span class="text-muted">System Time: </span><span class="badge badge-info" id="sntp_time">-</span></p>
+                    <p class="card-text"><span class="text-muted">Memory: </span>
+                      <span class="badge badge-info" id="memory_used">-/-KB</span>
+                      <span class="badge badge-info" id="memory_free_percent">Free: -%</span>
+                    </p>
+                    <p class="card-text"><span class="text-muted">Connectivity: </span>
+                      <span class="badge badge-info" id="connectivity_type">-</span>
+                      <span class="badge badge-info" id="wifi_mode">-</span>
+                      <span class="badge badge-info" id="ip_address">0.0.0.0</span>
+                      <span class="badge badge-info" id="mac_address">0.0.0.0</span>
+                      <span class="badge badge-info" id="mdns_address">-</span></p>
+                      <p class="card-text"><span class="text-muted">Sensors: </span>
+                        <span class="badge badge-danger" id="pm25_status">PM2.5</span>
+                        <span class="badge badge-danger" id="pm10_status">PM10</span>
+                        <span class="badge badge-danger" id="temperature_status">Temperature</span>
+                        <span class="badge badge-danger" id="humidity_status">Humidity</span>
+                        <span class="badge badge-danger" id="pressure_status">Pressure</span>
+                        <span class="badge badge-danger" id="voc_status">VOC</span>
+                        <span class="badge badge-danger" id="co2_status">CO2</span></p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5 class="card-title">Storage</h5>
+                        <p class="card-text"><span class="text-muted">Type: </span>
+                          <span class="badge badge-danger" id="storage_type">-</span>
+                        </p>
+                        <p class="card-text"><span class="text-muted">Capacity: </span>
+                          <span class="badge badge-info" id="storage_used">-/-GB</span>
+                          <span class="badge badge-info" id="storage_free_percent">Free: -%</span>
+                        </p>
+                        <div class="btn-group float-right" role="group">
+                          <button type="button" class="btn btn-sm btn-outline-success" id="sd_insert">Insert</button>
+                          <button type="button" class="btn btn-sm btn-outline-success" id="sd_eject">Eject</button>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <h5 class="card-title">Data Logging</h5>
+                        <p class="card-text"><span class="text-muted">Total Log Size: </span>
+                          <span class="badge badge-info" id="log_size">-</span>
+                        </p>
+                        <p class="card-text"><span class="text-muted">File Split Size: </span>
+                          <span class="badge badge-info" id="log_split_size">-</span>
+                        </p>
+                        <!-- add a note here to tell what LOG_SPLIT_SIZE actually means -->
+                        <p class="card-text"><span class="text-muted">File Prefix: </span>
+                          <span class="badge badge-info" id="log_file_prefix">-</span>
+                        </p>
+                        <p class="card-text"><span class="text-muted">Log Interval: </span>
+                          <span class="badge badge-info" id="log_interval">-</span>
+                        </p>
+                        <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                          <label class="btn btn-sm btn-outline-success disabled" id="log_enable">
+                            <input type="radio" name="data_log_enable" id="data_log_enable" autocomplete="off"> Enable
+                          </label>
+                          <label class="btn btn-sm btn-outline-success disabled" id="log_disable">
+                            <input type="radio" name="data_log_disable" id="data_log_disable" autocomplete="off"> Disable
+                          </label>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <h5 class="card-title">Power</h5>
+                        <p class="card-text"><span class="text-muted">Battery: </span>
+                          <span class="badge badge-info" id="battery_status">-</span>
+                          <span class="badge badge-danger" id="battery_percentage">-</span>
+                          <span class="badge badge-danger" id="battery_voltage">-</span>
+                        </p>
+                        <div class="btn-group float-right" role="group">
+                          <button type="button" class="btn btn-sm btn-outline-success" id="sleep">Sleep</button>
+                          <button type="button" class="btn btn-sm btn-outline-success" id="reboot">Reboot</button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+      $(document).ready(function(){
+        var device_time;
+        var getSTA = function(){
+          $.ajax({
+            url: "/get?settings=sta",
+            success: function(result) {
+              $("#sta_ssid").val(result.ssid);
+              $("#sta_password").val(result.password);
+            }
+          });
+        }
+        var setSTA = function(){
+          $.ajax({
+            url: "/set?settings=sta&ssid=" + $("#sta_ssid").val() + "&password=" + $("#sta_password").val(),
+            success: function(result) {
+              console.log(result);
+            }
+          });
+        }
+        var getAP = function(){
+          $.ajax({
+            url: "/get?settings=ap",
+            success: function(result) {
+              $("#ap_ssid").val(result.ssid);
+              $("#ap_password").val(result.password);
+            }
+          });
+        }
+        var setAP = function(){
+          $.ajax({
+            url: "/set?settings=ap&ssid=" + $("#ap_ssid").val() + "&password=" + $("#ap_password").val(),
+            success: function(result) {
+              console.log(result);
+            }
+          });
+        }
+        var getAPI = function(){
+          $.ajax({
+            url: "/get?settings=api",
+            success: function(result) {
+              $("#api_url").val(result.url);
+              $("#api_key").val(result.key);
+            }
+          });
+        }
+        var setAPI = function(){
+          $.ajax({
+            url: "/set?settings=api&url=" + $("#api_url").val() + "&key=" + $("#api_key").val(),
+            success: function(result) {
+              console.log(result);
+            }
+          });
+        }
+        var logEnable = function(){
+          $.ajax({
+            url: "/set?settings=sd&log=true",
+            success: function(result){
+              $("#log_enable").removeClass("disabled").addClass("active");
+              $("#log_disable").removeClass("disabled").removeClass("active");
+              $("#data_log_enable").prop('checked',true);
+              $("#data_log_disable").prop('checked',false);
+            }
+          });
+        }
+        var logDisable = function(){
+          $.ajax({
+            url: "/set?settings=sd&log=false",
+            success: function(result){
+              $("#log_enable").removeClass("disabled").removeClass("active");
+              $("#log_disable").removeClass("disabled").addClass("active");
+              $("#data_log_enable").prop('checked',false);
+              $("#data_log_disable").prop('checked',true);
+            }
+          });
+        }
+        var getDevice = function(){
+          $.ajax({
+            url: "/get?settings=device",
+            success: function(result) {
+              let time = new Date(result.time);
+              $("#device_id").text(result.id);
+              $("#firmware_version").text(result.firmware);
+              $("#sntp_time").text(time === "Invalid Date"?"Unavailable":(device_time=time,time.toLocaleString()));
+              $("#connectivity_type").text(result.connectivity.type);
+              $("#wifi_mode").text(result.connectivity.mode);
+              $("#ip_address").text("IP: "+result.connectivity.ip);
+              $("#mac_address").text("MAC: "+result.connectivity.mac);
+              $("#mdns_address").text("MDNS: "+result.connectivity.mdns);
+              $("#memory_used").text(Math.round(((result.memory.total-result.memory.available)/1024))+"/"+Math.round((result.memory.total/1024))+"KB");
+              $("#memory_free_percent").text("Free: "+Math.round(((result.memory.available/result.memory.total)*100))+"%");
+              if(result.storage.insert){
+                $("#storage_type").text("SD Card");
+                $( "#storage_type" ).removeClass( "badge-danger" ).addClass( "badge-success" );
+                $("#storage_used").text(result.storage.total-result.storage.available+"/"+result.storage.total+"GB");
+                $("#storage_free_percent").text("Free: "+Math.round(((result.storage.available/result.storage.total)*100))+"%");
+              } else {
+                $("#storage_type").text("-");
+                $( "#storage_type" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+                $("#storage_used").text("-/-GB");
+                $("#storage_free_percent").text("Free: -%");
+              }
+              $("#log_size").text(result.log.size+"MB");
+              $("#log_split_size").text(Math.round(result.log.split/(1024*1024))+"MB");
+              $("#log_file_prefix").text(result.log.file_prefix);
+              $("#log_interval").text(Math.round(result.log.interval)+" seconds");
+              (result.log.enabled) ?( $("#log_enable").removeClass("disabled").addClass("active"),$("#log_disable").removeClass("disabled").removeClass("active"),$("#data_log_enable").prop('checked',true),$("#data_log_disable").prop('checked',false)):($("#log_disable").removeClass("disabled").addClass("active"),$("#log_enable").removeClass("disabled").removeClass("active"),$("#data_log_enable").prop('checked',false),$("#data_log_disable").prop('checked',true));
+              (result.sensors.pm25) ? $( "#pm25_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$( "#pm25_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              (result.sensors.pm10) ? $( "#pm10_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$( "#pm10_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              (result.sensors.temperature) ? $( "#temperature_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$("#temperature_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              (result.sensors.pressure) ? $("#pressure_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$("#pressure_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              (result.sensors.humidity) ? $("#humidity_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$("#humidity_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              (result.sensors.co2) ? $("#co2_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$("#co2_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              (result.sensors.voc) ? $("#voc_status" ).removeClass( "badge-danger" ).addClass( "badge-success" ):$("#voc_status" ).removeClass( "badge-success" ).addClass( "badge-danger" );
+              $("#battery_status").text(result.power.status);
+              $("#battery_percentage").text(result.power.percentage+"%");
+              $("#battery_voltage").text(result.power.voltage+"V");
+              if (result.power.percentage >= 75) {
+                $("#battery_percentage" ).removeClass( "badge-danger" ).removeClass( "badge-warning" ).removeClass( "badge-info" ).addClass( "badge-success" );
+                $("#battery_voltage" ).removeClass( "badge-danger" ).removeClass( "badge-warning" ).removeClass( "badge-info" ).addClass( "badge-success" );
+              } else if (result.power.percentage >= 50) {
+                $("#battery_percentage" ).removeClass( "badge-danger" ).removeClass( "badge-warning" ).addClass( "badge-info" ).removeClass( "badge-success" );
+                $("#battery_voltage" ).removeClass( "badge-danger" ).removeClass( "badge-warning" ).addClass( "badge-info" ).removeClass( "badge-success" );
+              } else if (result.power.percentage >= 25) {
+                $("#battery_percentage" ).removeClass( "badge-danger" ).addClass( "badge-warning" ).removeClass( "badge-info" ).removeClass( "badge-success" );
+                $("#battery_voltage" ).removeClass( "badge-danger" ).addClass( "badge-warning" ).removeClass( "badge-info" ).removeClass( "badge-success" );
+              } else if (result.power.percentage >= 0) {
+                $("#battery_percentage" ).addClass( "badge-danger" ).removeClass( "badge-warning" ).removeClass( "badge-info" ).removeClass( "badge-success" );
+                $("#battery_voltage" ).addClass( "badge-danger" ).removeClass( "badge-warning" ).removeClass( "badge-info" ).removeClass( "badge-success" );
+              }
+            }
+          });
+        }
+        var reboot = function(){
+          $.ajax({
+            url: "/set?control=reboot",
+            success: function(result){
+              console.log(result);
+            }
+          });
+        }
+        var sdEject = function(){
+          $.ajax({
+            url: "/set?control=sd_eject",
+            success: function(result){
+              console.log(result);
+            }
+          });
+        }
+        var sdInsert = function(){
+          $.ajax({
+            url: "/set?control=sd_insert",
+            success: function(result){
+              console.log(result);
+            }
+          });
+        }
+        $("#sta_reset").on("click",getSTA);
+        $("#ap_reset").on("click",getAP);
+        $("#sta_save").on("click",setSTA);
+        $("#ap_save").on("click",setAP);
+        $("#api_reset").on("click",getAPI);
+        $("#api_save").on("click",setAPI);
+        $("#device_refresh").on("click",getDevice);
+        $("#reboot").on("click",reboot);
+        $("#log_enable").on("click",logEnable);
+        $("#log_disable").on("click",logDisable);
+        $("#sd_eject").on("click",sdEject);
+        $("#sd_insert").on("click",sdInsert);
+        getSTA();
+        getAP();
+        getAPI();
+        setInterval(function(){
+          getDevice();
+        },5000);
+      })
+      </script>
+    </body>
+    </html>

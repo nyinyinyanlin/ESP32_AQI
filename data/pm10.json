@@ -1,0 +1,4 @@
+{
+  "current":%PM10_CURRENT%,
+  "record":[%PM10_RECORD%]
+}
