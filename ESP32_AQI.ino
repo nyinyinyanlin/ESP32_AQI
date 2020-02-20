@@ -18,6 +18,8 @@
 #include "graphic.h"
 #include "util.h"
 #include "sd_util.h"
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
 
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 23400;
@@ -892,6 +894,7 @@ void sds011Code(void * parameter) {
     while ((!timeout) && (!sds011_avail)) {
       if ((millis() - sds011_start) >= SDS011_TIMEOUT) timeout = true;
       if (sds011.available()) sds011_avail = true;
+      vTaskDelay(100);
     }
     if (sds011_avail) {
       while (sds011.available())  {
@@ -907,7 +910,7 @@ void sds011Code(void * parameter) {
             Serial.print(s_b, HEX);
             sds011.read();
             while (sds011.available() < 8) {
-              //do nothing
+              vTaskDelay(50);
             }
             sds011.readBytes(ppmres, 8);
             for (int i = 0; i < 8; i++) {
@@ -1206,6 +1209,7 @@ bool handleWifi() {
 //////////////////////////////////////// * MAIN * ///////////////////////////////
 
 void setup() {
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
   Serial.begin(9600);
   Serial.println("Device Booting...");
   pinMode(RESET_PIN, INPUT_PULLUP);
