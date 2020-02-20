@@ -654,11 +654,11 @@ void oledDisplayCode(void * parameter) {
       display.setCursor(0, 0);
       float voltage = analogRead(CHARGE_PIN) * 0.00172;
       float bat = getAvg(vbat, MOV_AVG_WDW);
-      if (voltage <= 2) {
+      if (voltage >= 2) {
         display.println("Status:");
         display.print("  Plugged-in|");
         display.println("Charged");
-      } else if (voltage <= 1) {
+      } else if (voltage >= 1) {
         display.println("Status:");
         display.println("  Plugged-in|");
         display.println("Charging");
@@ -977,9 +977,9 @@ float getBattery() {
 
 String getChargeStatus() {
   float voltage = analogRead(CHARGE_PIN) * 0.00172;
-  if (voltage <= 2) {
+  if (voltage >= 2) {
     return "Plugged-in | Charged";
-  } else if (voltage <= 1) {
+  } else if (voltage >= 1) {
     return "Plugged-in | Charging";
   }
   return "On Battery";
@@ -1218,7 +1218,7 @@ void setup() {
   // Core 0 Tasks
   xTaskCreatePinnedToCore(statusLedCode, "Status LED", 10000, NULL, 0, &statusLedTask, 0);
   xTaskCreatePinnedToCore(dataRecordCode, "Data Record Task", 10000, NULL, 1, &dataRecordTask, 0);
-  xTaskCreatePinnedToCore(sds011Code, "SDS011 Task", 10000, NULL, 3, &sds011Task, 0);
+  xTaskCreatePinnedToCore(sds011Code, "SDS011 Task", 10000, NULL, 1, &sds011Task, 0);
 
   // Core 1 Tasks
   xTaskCreatePinnedToCore(oledDisplayCode, "OLED Display", 10000, NULL, 1, &oledDisplayTask, 1);
