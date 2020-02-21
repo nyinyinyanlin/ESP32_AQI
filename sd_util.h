@@ -8,10 +8,13 @@
 #include "FS.h"
 #include "config.h"
 #include "time.h"
+#include "dirent.h"
+#include "sys/stat.h"
 
 extern bool sd_lock;
 extern bool sd_ok;
 extern bool sd_mount;
+extern bool spi_lock;
 
 extern String timeToString(struct tm * timestruct);
 
