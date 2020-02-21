@@ -171,9 +171,9 @@
       }
 
       var deleteFile = function(){
-        var file[0] = $(this).data('target');
+        var filename = $(this).data('target');
         $.ajax({
-          url:"/records?type=delete&file="+file[0],
+          url:"/records?type=delete&file="+filename,
           success: function(result){
             getRecords();
           }
