@@ -18,6 +18,8 @@
 #include "graphic.h"
 #include "util.h"
 #include "sd_util.h"
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
 
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 23400;
@@ -58,6 +60,7 @@ bool sd_lock = false;
 bool sd_mount = true;
 bool display_ok = false;
 bool i2c_lock = false;
+bool spi_lock = false;
 bool wifi_mode = WIFISTA_MODE;
 
 HardwareSerial ndir(1);
@@ -353,6 +356,7 @@ String data_processor(const String & var) {
 
 String log_processor(const String & var) {
   if (var == "LOG_FILES" && sd_ok) {
+    Serial.println("Log Processor");
     return listLogDir(SD);
   }
   return String();
@@ -395,7 +399,10 @@ void logCode(void * parameter) {
         String filename = String(LOG_DIR)  + "/" + String(prefix) + "_" + String(postfix) + ".csv";
         Serial.println("File Name: " + filename);
         Serial.println("Data: " + log_data);
+        while (spi_lock)vTaskDelay(100);
+        spi_lock = true;
         if (SD.exists(filename)) {
+          spi_lock = false;
           if (appendFile(SD, filename, log_data + "\n")) {
             Serial.println("LOG: Append logged");
             uint64_t file_size = sizeFile(SD, filename);
@@ -407,14 +414,18 @@ void logCode(void * parameter) {
           } else {
             Serial.println("LOG: Log failed");
           }
+          spi_lock = false;
         } else {
+          spi_lock = false;
           Serial.println("LOG: New file logged");
           String header = "time,pm10,pm25,temperature,pressure,relative humidity,iaq,co2\n";
           writeFile(SD, filename, header + log_data + "\n");
         }
         unlockSD();
+        spi_lock = false;
       } else {
         Serial.println("LOG: Not logging");
+        spi_lock = false;
       }
     }
   }
@@ -688,6 +699,7 @@ void oledDisplayCode(void * parameter) {
       display.setCursor(0, 0);
 
       display.print("SD Card: ");
+      initSD();
       if (sd_ok) {
         display.println("Inserted");
         display.print("Size: ");
@@ -892,6 +904,7 @@ void sds011Code(void * parameter) {
     while ((!timeout) && (!sds011_avail)) {
       if ((millis() - sds011_start) >= SDS011_TIMEOUT) timeout = true;
       if (sds011.available()) sds011_avail = true;
+      vTaskDelay(100);
     }
     if (sds011_avail) {
       while (sds011.available())  {
@@ -907,7 +920,7 @@ void sds011Code(void * parameter) {
             Serial.print(s_b, HEX);
             sds011.read();
             while (sds011.available() < 8) {
-              //do nothing
+              vTaskDelay(50);
             }
             sds011.readBytes(ppmres, 8);
             for (int i = 0; i < 8; i++) {
@@ -1206,6 +1219,7 @@ bool handleWifi() {
 //////////////////////////////////////// * MAIN * ///////////////////////////////
 
 void setup() {
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
   Serial.begin(9600);
   Serial.println("Device Booting...");
   pinMode(RESET_PIN, INPUT_PULLUP);
@@ -1321,11 +1335,11 @@ void setup() {
       } else if (type == "api") {
         request->send(SPIFFS, "/api.json", String(), false, api_processor);
       } else if (type == "device") {
-        waitSDLock();
+        //waitSDLock();
         initSD();
-        lockSD();
+        //lockSD();
         request->send(SPIFFS, "/device.json", String(), false, device_processor);
-        unlockSD();
+        //unlockSD();
       }
     } else if (request->hasParam("data")) {
       String type = request->getParam("data")->value();
@@ -1478,16 +1492,25 @@ void setup() {
       if (type == "download") {
         if (sd_ok && !sd_lock) {
           lockSD();
+          while (spi_lock)vTaskDelay(10);
+          spi_lock = true;
           request->send(SD, "/log/" + filename, "text/plain", true);
+          spi_lock = false;
           unlockSD();
         } else {
           request->send(404, "text/plain", "File Not Found");
         }
       } else if (type == "delete") {
-        if (sd_ok && !sd_lock && deleteFile(SD, "/log/" + filename)) {
-          lockSD();
-          request->send(200, "text/plain", "File: " + filename + " is deleted");
-          unlockSD();
+        if (sd_ok && !sd_lock) {
+          while (spi_lock)vTaskDelay(10);
+          spi_lock = true;
+          if (deleteFile(SD, "/log/" + filename)) {
+            spi_lock = false;
+            lockSD();
+            request->send(200, "text/plain", "File: " + filename + " is deleted");
+            unlockSD();
+          }
+          spi_lock = false;
         } else {
           request->send(404, "text/plain", "File Not Found");
         }

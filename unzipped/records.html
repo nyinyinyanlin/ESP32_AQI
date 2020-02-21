@@ -159,8 +159,7 @@
       var populateRecords = function(records) {
         $("#table-body").empty();
         records.files.forEach(function(file){
-          let filename = (file[0].split("/"))[2];
-          let row = "<tr><td>"+filename+"</td><td>"+getSize(file[1])+"</td><td>"+isoStringToDate(file[2])+"</td><td><i class=\"fas fa-exclamation-triangle\"></i><a class=\"download\" href=\"/records?type=download&file="+filename+"\"><i class=\"fas fa-download\" aria-hidden=\"true\"></i></a> | <i class=\"cursor fas fa-trash\" aria-hidden=\"true\"  data-target=\""+filename+"\"></i></td></tr>"
+          let row = "<tr><td>"+file[0]+"</td><td>"+getSize(file[1])+"</td><td>"+isoStringToDate(file[2])+"</td><td><i class=\"fas fa-exclamation-triangle\"></i><a class=\"download\" href=\"/records?type=download&file="+file[0]+"\"><i class=\"fas fa-download\" aria-hidden=\"true\"></i></a> | <i class=\"cursor fas fa-trash\" aria-hidden=\"true\"  data-target=\""+file[0]+"\"></i></td></tr>"
           $("#table-body").append(row);
         });
         $(".fa-trash").click(deleteFile);
@@ -173,11 +172,9 @@
 
       var deleteFile = function(){
         var filename = $(this).data('target');
-        console.log(filename);
         $.ajax({
           url:"/records?type=delete&file="+filename,
           success: function(result){
-            console.log(result);
             getRecords();
           }
         });
@@ -203,7 +200,6 @@
         $.ajax({
           url: "/get?settings=device",
           success: function(result) {
-            console.log(result);
             if(result.storage.insert){
               $("#refresh_list").removeClass("disabled");
               if (result.log.enabled) {
