@@ -7,7 +7,6 @@
 #include <ESPAsyncWebServer.h>
 #include <Wire.h>
 #include <SPI.h>
-#include <LoRa.h>
 #include <Adafruit_Sensor.h>
 #include "driver/ledc.h"
 #include "Adafruit_BME680.h"
@@ -41,19 +40,6 @@ struct tm timeinfo;
   int    tm_isdst; //   Daylight Savings flag.
   }
 */
-
-
-
-//define the pins used by the transceiver module
-//change the pin numbers
-/*
-#define ss 15
-#define rst 5
-#define dio0 2
-*/
-
-
-
 
 const uint8_t channel         = 0;
 const uint8_t numberOfBits    = 8; //LEDC_TIMER_15_BIT;
@@ -1230,13 +1216,6 @@ bool handleWifi() {
   }
 }
 
-// loRa transmit
-void loRaSend(String data){
-  LoRa.beginPacket();
-  LoRa.println(data);
-  LoRa.endPacket();
-}
-
 //////////////////////////////////////// * MAIN * ///////////////////////////////
 
 void setup() {
@@ -1250,12 +1229,6 @@ void setup() {
     return;
   }
 
-
- // LoRa initialization
-  LoRa.setPins(ss, rst, dio0);
-  LoRa.begin(433E6); // legal frequency for asia, 433kHz
-  LoRa.setSyncWord(0x03); // can be any value from 0x00 to 0xFF
-  
   // Core 0 Tasks
   xTaskCreatePinnedToCore(statusLedCode, "Status LED", 10000, NULL, 0, &statusLedTask, 0);
   xTaskCreatePinnedToCore(dataRecordCode, "Data Record Task", 10000, NULL, 1, &dataRecordTask, 0);
@@ -1612,8 +1585,6 @@ void loop() {
       sntp_start = millis();
     }
   }
-  String dummyData = "DummyData";
-  loRaSend(dummyData);
   vTaskDelay(2000);
 }
 
