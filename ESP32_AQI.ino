@@ -42,19 +42,6 @@ struct tm timeinfo;
   }
 */
 
-
-
-//define the pins used by the transceiver module
-//change the pin numbers
-/*
-#define ss 15
-#define rst 5
-#define dio0 2
-*/
-
-
-
-
 const uint8_t channel         = 0;
 const uint8_t numberOfBits    = 8; //LEDC_TIMER_15_BIT;
 const uint32_t frequency      = 1000;
@@ -90,6 +77,7 @@ TaskHandle_t logTask;
 TaskHandle_t bme680Task;
 TaskHandle_t ndirTask;
 TaskHandle_t sds011Task;
+TaskHandle_t loRaTask;
 
 AsyncWebServer server(80);
 RTC_DS3231 rtc;
@@ -973,6 +961,25 @@ void sds011Code(void * parameter) {
   }
 }
 
+void loRaCode(void * parameter) {
+  Serial.print("LoRa Radio Code running on core ");
+  Serial.println(xPortGetCoreID());
+  LoRa.setPins(LORA_SS, LORA_RST, LORA_DIO0);
+  LoRa.begin(LORA_FREQ);
+  LoRa.setSyncWord(LORA_SYNCWORD);
+  for(;;){
+    vTaskDelay(30000);
+    //loRaSend("");
+  }
+}
+
+// loRa transmit
+void loRaSend(String data) {
+  LoRa.beginPacket();
+  LoRa.println(data);
+  LoRa.endPacket();
+}
+
 void drawBitmap() {
   display.clearDisplay();
   display.drawBitmap(
@@ -1230,13 +1237,6 @@ bool handleWifi() {
   }
 }
 
-// loRa transmit
-void loRaSend(String data){
-  LoRa.beginPacket();
-  LoRa.println(data);
-  LoRa.endPacket();
-}
-
 //////////////////////////////////////// * MAIN * ///////////////////////////////
 
 void setup() {
@@ -1250,17 +1250,12 @@ void setup() {
     return;
   }
 
-
- // LoRa initialization
-  LoRa.setPins(ss, rst, dio0);
-  LoRa.begin(433E6); // legal frequency for asia, 433kHz
-  LoRa.setSyncWord(0x03); // can be any value from 0x00 to 0xFF
-  
   // Core 0 Tasks
   xTaskCreatePinnedToCore(statusLedCode, "Status LED", 10000, NULL, 0, &statusLedTask, 0);
-  xTaskCreatePinnedToCore(dataRecordCode, "Data Record Task", 10000, NULL, 1, &dataRecordTask, 0);
-  xTaskCreatePinnedToCore(sds011Code, "SDS011 Task", 10000, NULL, 1, &sds011Task, 0);
-
+  xTaskCreatePinnedToCore(dataRecordCode, "Data Record Task", 10000, NULL, 0, &dataRecordTask, 0);
+  xTaskCreatePinnedToCore(sds011Code, "SDS011 Task", 10000, NULL, 0, &sds011Task, 0);
+  xTaskCreatePinnedToCore(loRaCode, "LoRa Task", 10000, NULL, 0, &loRaTask, 0);
+  
   // Core 1 Tasks
   xTaskCreatePinnedToCore(oledDisplayCode, "OLED Display", 10000, NULL, 1, &oledDisplayTask, 1);
   xTaskCreatePinnedToCore(uploadCode, "Upload Task", 10000, NULL, 3, &uploadTask, 1);
