@@ -20,6 +20,15 @@
 #define BAT_PIN 33
 #define CHARGE_PIN 32
 
+// LoRa Configurations
+
+#define LORA_SS 15
+#define LORA_RST 5
+#define LORA_DIO0 2
+
+#define LORA_FREQ 433E6 // legal frequency for asia, 433kHz
+#define LORA_SYNCWORD 0x03 // can be any value from 0x00 to 0xFF
+
 // Wifi Mode
 
 #define WIFIAP_MODE 0
